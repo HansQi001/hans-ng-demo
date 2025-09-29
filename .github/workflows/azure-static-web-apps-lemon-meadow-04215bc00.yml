@@ -19,18 +19,28 @@ jobs:
         with:
           submodules: true
           lfs: false
-      - name: Build And Deploy
-        id: builddeploy
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'   # match your Angular CLI version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Angular app
+        run: npm run build -- --configuration production
+
+      - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LEMON_MEADOW_04215BC00 }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # for PR comments
           action: "upload"
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-          app_location: "/" # App source code path
-          api_location: "" # Api source code path - optional
-          output_location: "dist/hans-ng-demo/browser" # Built app content directory - optional
+          app_location: "/"                    
+          output_location: "dist/hans-ng-demo/browser" # Built app content directory
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
@@ -44,3 +54,4 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LEMON_MEADOW_04215BC00 }}
           action: "close"
+
