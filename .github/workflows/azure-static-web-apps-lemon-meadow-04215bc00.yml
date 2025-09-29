@@ -23,7 +23,9 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'   # match your Angular CLI version
+          node-version: '20.19.0'   # match your Angular CLI version
+
+      - run: npm cache clean --force
 
       - name: Install dependencies
         run: npm install
@@ -54,4 +56,5 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LEMON_MEADOW_04215BC00 }}
           action: "close"
+
 
